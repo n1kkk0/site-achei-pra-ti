@@ -1,13 +1,5 @@
 // =========================================================
-// 1. CONFIGURAÇÃO DOS LINKS (COLE OS SEUS AQUI)
-//
-//    WhatsApp:  abra o grupo > Dados do grupo > "Convidar via link"
-//               > Copiar link. Fica assim:
-//               https://chat.whatsapp.com/AbC123xYz...
-//    Instagram: link do seu perfil. Fica assim:
-//               https://www.instagram.com/seuperfil
-//
-//    Para esconder um botão, deixe o link vazio: instagram: ""
+// 1. CONFIGURAÇÃO DOS LINKS
 // =========================================================
 const LINKS_GRUPOS = {
   whatsapp: "https://chat.whatsapp.com/CcPFw9XAjVmBN7MNZVZJIW?s=cl&p=i&iam=2",
@@ -16,24 +8,14 @@ const LINKS_GRUPOS = {
 
 // =========================================================
 // 2. IMAGENS DOS PRODUTOS
-//    Salve as fotos na mesma pasta do index.html
-//    com os nomes indicados em cada produto
-//    (ex.: iphone-15.webp).
-//    Se a foto não existir, o emoji aparece no lugar.
 // =========================================================
-// Pasta das fotos. "" = mesma pasta do index.html (como está agora).
-// Se um dia criar uma pasta, escreva o nome com barra no final: "imagens/"
 const PASTA_IMAGENS = "";
-
-// Formato das fotos. Se um dia precisar de outro, acrescente na lista
-// (ex.: ["webp", "jpg"]) que o código tenta cada um em ordem.
 const EXTENSOES_IMAGENS = ["webp"];
 
 function caminhoImagem(nome, extensao) {
   return `${PASTA_IMAGENS}${nome}.${extensao}`;
 }
 
-// Monta a <img> com a primeira extensão da lista
 function htmlImagem(item) {
   return `<img src="${caminhoImagem(item.imagem, EXTENSOES_IMAGENS[0])}"
     alt="${item.nome}" loading="lazy"
@@ -41,8 +23,6 @@ function htmlImagem(item) {
     onerror="imagemFalhou(this)">`;
 }
 
-// Se a imagem não carregar, tenta a próxima extensão;
-// se nenhuma existir, mostra o emoji no lugar.
 function imagemFalhou(img) {
   const proxima = Number(img.dataset.tentativa) + 1;
 
@@ -57,11 +37,9 @@ function imagemFalhou(img) {
 // =========================================================
 // 3. DADOS DOS PRODUTOS (VITRINE E FEED DO CELULAR)
 // =========================================================
-
-// ----- VITRINE (4 produtos lá embaixo) -----
 const OFERTAS_VITRINE = [
   {
-    imagem: "iphone-15",            // iphone-15.webp
+    imagem: "iphone-15",
     emoji: "📱",
     categoria: "📱 Celulares",
     nome: "Smartphone 128GB Lacrado",
@@ -70,7 +48,7 @@ const OFERTAS_VITRINE = [
     desconto: "51% OFF"
   },
   {
-    imagem: "robo-aspirador",       // robo-aspirador.webp
+    imagem: "robo-aspirador",
     emoji: "🧹",
     categoria: "🏠 Casa",
     nome: "Robô Aspirador Inteligente",
@@ -79,7 +57,7 @@ const OFERTAS_VITRINE = [
     desconto: "46% OFF"
   },
   {
-    imagem: "caixa-bluetooth",      // caixa-bluetooth.webp
+    imagem: "caixa-bluetooth",
     emoji: "🔊",
     categoria: "🔊 Áudio",
     nome: "Caixa de Som Bluetooth Portátil",
@@ -88,7 +66,7 @@ const OFERTAS_VITRINE = [
     desconto: "44% OFF"
   },
   {
-    imagem: "smart-tv-55",          // smart-tv-55.webp
+    imagem: "smart-tv-55",
     emoji: "📺",
     categoria: "📺 Eletrônicos",
     nome: "Smart TV 55\" 4K UHD",
@@ -98,8 +76,6 @@ const OFERTAS_VITRINE = [
   }
 ];
 
-// ----- FEED DO CELULAR (6 produtos que passam na tela) -----
-// Nomes curtos para caberem em uma linha dentro do celular
 const OFERTAS_FEED_CELULAR = [
   { imagem: "robo-aspirador",  emoji: "🧹", nome: "Robô Aspirador",  de: "R$ 1.299,90", por: "R$ 699,90",   off: "-46%" },
   { imagem: "caixa-bluetooth", emoji: "🔊", nome: "Caixa Bluetooth", de: "R$ 799,90",   por: "R$ 449,90",   off: "-44%" },
@@ -109,35 +85,50 @@ const OFERTAS_FEED_CELULAR = [
   { imagem: "tenis-corrida",   emoji: "👟", nome: "Tênis Corrida",   de: "R$ 499,90",   por: "R$ 219,90",   off: "-56%" }
 ];
 
-// Quantos cards aparecem ao mesmo tempo dentro do celular
-const MAX_CARDS_NO_FEED = 6;  // o último aparece cortado, como num feed rolando
+const MAX_CARDS_NO_FEED = 6;
 
 // =========================================================
-// 4. INICIALIZAÇÃO DA PÁGINA
+// 4. INICIALIZAÇÃO E CONTAGEM DE CLIQUES
 // =========================================================
+const NAMESPACE_CONTADOR = "acheiprati-nicolas-2026";
+const CHAVE_CONTADOR_LOCAL = "acheiprati_cliques_canais_v1";
+
 document.addEventListener("DOMContentLoaded", () => {
   aplicarLinksNosBotoes();
   renderizarVitrine();
   iniciarFeedCelular();
 });
 
-// O link ainda é o texto de exemplo (ou está vazio)?
 function linkInvalido(link) {
   return !link || link.includes("SEU_LINK_AQUI") || link.includes("SEU_PERFIL_AQUI");
 }
 
+function registrarCliqueCanal(canal) {
+  // 1. Guarda contagem local no navegador para teste rápido
+  try {
+    const salvo = localStorage.getItem(CHAVE_CONTADOR_LOCAL);
+    const contagens = salvo ? JSON.parse(salvo) : {};
+    contagens[canal] = (contagens[canal] || 0) + 1;
+    localStorage.setItem(CHAVE_CONTADOR_LOCAL, JSON.stringify(contagens));
+  } catch {
+    // Ignora caso o storage esteja bloqueado
+  }
+
+  // 2. Soma no contador global para todos os visitantes
+  const url = `https://abacus.jasoncameron.dev/hit/${NAMESPACE_CONTADOR}/clique-${canal}`;
+  fetch(url, { method: "GET", keepalive: true }).catch(() => {});
+}
+
 function aplicarLinksNosBotoes() {
   document.querySelectorAll("[data-channel]").forEach(btn => {
-    const canal = btn.dataset.channel;          // "whatsapp" ou "instagram"
+    const canal = btn.dataset.channel;
     const link = LINKS_GRUPOS[canal];
 
-    // Canal deixado vazio de propósito: esconde o botão
     if (!link) {
       btn.style.display = "none";
       return;
     }
 
-    // Link de exemplo ainda não trocado: avisa no console e não abre nada
     if (linkInvalido(link)) {
       console.warn(`[Achei Pra Ti] Cole o link real do ${canal} no topo do script.js`);
       btn.addEventListener("click", e => e.preventDefault());
@@ -147,6 +138,10 @@ function aplicarLinksNosBotoes() {
     btn.href = link;
     btn.target = "_blank";
     btn.rel = "noopener noreferrer";
+
+    btn.addEventListener("click", () => {
+      registrarCliqueCanal(canal);
+    });
   });
 }
 
@@ -175,8 +170,6 @@ function iniciarFeedCelular() {
   if (!feedContainer) return;
 
   let indexAtual = 0;
-
-  // Tira o espaço depois de "R$" para o preço caber em uma linha
   const semEspaco = valor => valor.replace("R$ ", "R$");
 
   function criarCardOferta(item) {
@@ -194,7 +187,6 @@ function iniciarFeedCelular() {
     return div;
   }
 
-  // Cards iniciais (o mais novo fica no topo, então o próximo nunca repete)
   for (let i = 0; i < MAX_CARDS_NO_FEED; i++) {
     feedContainer.insertBefore(
       criarCardOferta(OFERTAS_FEED_CELULAR[i % OFERTAS_FEED_CELULAR.length]),
@@ -203,7 +195,6 @@ function iniciarFeedCelular() {
     indexAtual = i + 1;
   }
 
-  // Novo card a cada 3,5 segundos
   setInterval(() => {
     const proxima = OFERTAS_FEED_CELULAR[indexAtual % OFERTAS_FEED_CELULAR.length];
     indexAtual++;
