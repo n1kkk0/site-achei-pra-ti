@@ -116,9 +116,13 @@ function registrarCliqueCanal(canal) {
 
   // 2. Soma no contador global para todos os visitantes
   const url = `https://abacus.jasoncameron.dev/hit/${NAMESPACE_CONTADOR}/clique-${canal}`;
-  fetch(url, { method: "GET", keepalive: true }).catch(() => {});
-}
 
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(url);
+  } else {
+    fetch(url, { method: "GET", keepalive: true, mode: "no-cors" }).catch(() => {});
+  }
+}
 function aplicarLinksNosBotoes() {
   document.querySelectorAll("[data-channel]").forEach(btn => {
     const canal = btn.dataset.channel;
