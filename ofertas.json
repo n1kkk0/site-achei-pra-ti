@@ -1,7 +1,79 @@
 {
-  "atualizado_em": "26/11/2026 22:52",
-  "total": 1,
+  "atualizado_em": "26/11/2026 23:40",
+  "total": 7,
   "ofertas": [
+    {
+      "id": 24,
+      "titulo": "Filamento Pla Plus 1kg Impressão 3d Nacional - Cores Cor Preto",
+      "preco_original": 219.3,
+      "preco_atual": 101.99,
+      "desconto": 53.0,
+      "economia": 117.31,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/filamento-pla-plus-1kg-impressao-3d-nacional-cores-cor-preto/p/MLB63966639",
+      "imagem": ""
+    },
+    {
+      "id": 23,
+      "titulo": "Filamento 3D Petg Branco Premium Resistente Impressora 3D Master Print 1,75mm - 1kg",
+      "preco_original": 99.99,
+      "preco_atual": 60.99,
+      "desconto": 39.0,
+      "economia": 39.0,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/filamento-3d-petg-branco-premium-resistente-impressora-3d-master-print-175mm-1kg/p/MLB21278806",
+      "imagem": ""
+    },
+    {
+      "id": 22,
+      "titulo": "Power Bank Basike 20000mAh Preto, Carga Rápida 22.5W para iPhone e Samsung, Com Cabos Embutidos e Display",
+      "preco_original": 213.88,
+      "preco_atual": 139.96,
+      "desconto": 35.0,
+      "economia": 73.92,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/power-bank-basike-20000mah-preto-carga-rapida-225w-para-iphone-e-samsung-com-cabos-embutidos-e-display/p/MLB50592250",
+      "imagem": ""
+    },
+    {
+      "id": 20,
+      "titulo": "Fone De Ouvido Bluetooth Bateria de Longa Duração Pro 4 Branco Conecta Rápido Com Case Carregador E Microfone Fast Plug",
+      "preco_original": 69.99,
+      "preco_atual": 24.99,
+      "desconto": 64.0,
+      "economia": 45.0,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/fone-de-ouvido-bluetooth-bateria-de-longa-duracao-pro-4-branco-conecta-rapido-com-case-carregador-e-microfone-fast-plug/p/MLB25263382",
+      "imagem": ""
+    },
+    {
+      "id": 19,
+      "titulo": "Projetor Portátil 4k Hd Android 11.0 Smart Wifi 5g Bluetooth Branco 127/220v",
+      "preco_original": 349.9,
+      "preco_atual": 179.9,
+      "desconto": 49.0,
+      "economia": 170.0,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/projetor-portatil-4k-hd-android-110-smart-wifi-5g-bluetooth/up/MLBU767944712",
+      "imagem": ""
+    },
+    {
+      "id": 17,
+      "titulo": "Fone De Ouvido Soundcore by Anker P20i Graves Poderosos e Impactantes Bluetooth 5.3 30H de Reprodução Resistência à Água 2 Mics IA para Chamadas Claras Personalização de Som via App Cor Preto",
+      "preco_original": 299.0,
+      "preco_atual": 112.8,
+      "desconto": 62.0,
+      "economia": 186.2,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/fone-de-ouvido-soundcore-by-anker-p20i-graves-poderosos-e-impactantes-bluetooth-53-30h-de-reproducao-resistencia-agua-2-mics-ia-para-chamadas-claras-personalizacao-de-som-via-app-cor-preto/p/MLB24028629",
+      "imagem": ""
+    },
     {
       "id": 16,
       "titulo": "Echo Dot 5ª Geração Alexa",
@@ -12,7 +84,7 @@
       "avaliacao": 4.9,
       "loja": "Amazon",
       "link": "https://www.amazon.com.br/dp/B09B8VGCR8?pd_rd_w=sFHkN&content-id=amzn1.sym.3591053f-a671-4805-84cb-b2e08264bbfa%3Aamzn1.sym.3591053f-a671-4805-84cb-b2e08264bbfa&pf_rd_p=3591053f-a671-4805-84cb-b2e08264bbfa&pf_rd_r=R9VBEDTWE9C5TYZ44WD0&pd_rd_wg=4vuc4&pd_rd_r=ecc9478b-8cad-4700-bab6-a2dfa9b3095c&pd_rd_i=B09B8VGCR8&ref_=febr_c_p_r0_ttl&th=1",
-      "imagem": "https://m.media-amazon.com/images/I/61evEYmxBZL._AC_SL1000_.jpg"
+      "imagem": ""
     }
   ]
 }
