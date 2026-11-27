@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "26/11/2026 22:32",
-  "total": 6,
+  "atualizado_em": "26/11/2026 22:35",
+  "total": 7,
   "ofertas": [
+    {
+      "id": 10,
+      "titulo": "Nome Real do Produto",
+      "preco_original": 299.9,
+      "preco_atual": 149.9,
+      "desconto": 50.0,
+      "economia": 150.0,
+      "avaliacao": 4.9,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/playstation-5-slim-disk-1tb-1-controle-branco-sony/up/MLBU4852141639",
+      "imagem": "https://http2.mlstatic.com/D_NQ_NP_2X_658340-MLB119944031162_112026-F-playstation-5-slim-disk-1tb-1-controle-branco-sony.webp"
+    },
     {
       "id": 9,
       "titulo": "Fone Bluetooth TWS JBL",
