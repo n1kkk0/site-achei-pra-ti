@@ -1,21 +1,21 @@
 {
-  "atualizado_em": "26/11/2026 22:37",
-  "total": 7,
+  "atualizado_em": "26/11/2026 22:40",
+  "total": 5,
   "ofertas": [
     {
-      "id": 10,
-      "titulo": "Nome Real do Produto",
-      "preco_original": 299.9,
-      "preco_atual": 149.9,
-      "desconto": 50.0,
-      "economia": 150.0,
+      "id": 15,
+      "titulo": "Echo Dot 5ª Geração Alexa",
+      "preco_original": 429.0,
+      "preco_atual": 269.0,
+      "desconto": 37.0,
+      "economia": 160.0,
       "avaliacao": 4.9,
-      "loja": "Mercado Livre",
-      "link": "https://www.mercadolivre.com.br/playstation-5-slim-disk-1tb-1-controle-branco-sony/up/MLBU4852141639",
-      "imagem": ""
+      "loja": "Amazon",
+      "link": "https://amzn.to/SEU_LINK_REAL",
+      "imagem": "https://m.media-amazon.com/images/I/31epF-8N9LL.png"
     },
     {
-      "id": 9,
+      "id": 14,
       "titulo": "Fone Bluetooth TWS JBL",
       "preco_original": 299.9,
       "preco_atual": 149.9,
@@ -27,7 +27,7 @@
       "imagem": ""
     },
     {
-      "id": 8,
+      "id": 13,
       "titulo": "Kit Organizador de Cabos Mesa",
       "preco_original": 59.9,
       "preco_atual": 29.9,
@@ -39,7 +39,7 @@
       "imagem": ""
     },
     {
-      "id": 7,
+      "id": 12,
       "titulo": "Mouse Gamer RGB 7200 DPI",
       "preco_original": 199.9,
       "preco_atual": 119.9,
@@ -51,7 +51,7 @@
       "imagem": ""
     },
     {
-      "id": 6,
+      "id": 11,
       "titulo": "Fone Bluetooth TWS Pro",
       "preco_original": 149.9,
       "preco_atual": 49.9,
@@ -60,30 +60,6 @@
       "avaliacao": 4.8,
       "loja": "Shopee",
       "link": "https://s.shopee.com.br/exemplo-fone",
-      "imagem": ""
-    },
-    {
-      "id": 2,
-      "titulo": "Smart TV 50\" 4K UHD",
-      "preco_original": 2899.0,
-      "preco_atual": 1999.0,
-      "desconto": 31.0,
-      "economia": 900.0,
-      "avaliacao": 4.7,
-      "loja": "Magalu",
-      "link": "https://magazineluiza.com.br/oferta-tv-03",
-      "imagem": "https://wx.mlcdn.com.br/shared/magalu/error-robot.svg"
-    },
-    {
-      "id": 1,
-      "titulo": "Air Fryer Digital 4L Inox",
-      "preco_original": 499.9,
-      "preco_atual": 259.9,
-      "desconto": 48.0,
-      "economia": 240.0,
-      "avaliacao": 4.9,
-      "loja": "Mercado Livre",
-      "link": "https://mercadolivre.com.br/oferta-airfryer-01?tag=afiliado1",
       "imagem": ""
     }
   ]
