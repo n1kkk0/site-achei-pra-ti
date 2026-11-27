@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "26/11/2026 22:28",
-  "total": 9,
+  "atualizado_em": "26/11/2026 22:32",
+  "total": 6,
   "ofertas": [
     {
       "id": 9,
@@ -12,7 +12,7 @@
       "avaliacao": 4.8,
       "loja": "Mercado Livre",
       "link": "https://mercadolivre.com/sec/exemplo-jbl",
-      "imagem": "https://http2.mlstatic.com/D_NQ_NP_2X_956791-MLA74780388315_022024-F.webp"
+      "imagem": ""
     },
     {
       "id": 8,
@@ -40,42 +40,6 @@
     },
     {
       "id": 6,
-      "titulo": "Fone Bluetooth TWS Pro",
-      "preco_original": 149.9,
-      "preco_atual": 49.9,
-      "desconto": 67.0,
-      "economia": 100.0,
-      "avaliacao": 4.8,
-      "loja": "Shopee",
-      "link": "https://s.shopee.com.br/exemplo-fone",
-      "imagem": ""
-    },
-    {
-      "id": 5,
-      "titulo": "Kit Organizador de Cabos Mesa",
-      "preco_original": 59.9,
-      "preco_atual": 29.9,
-      "desconto": 50.0,
-      "economia": 30.0,
-      "avaliacao": 4.9,
-      "loja": "Shopee",
-      "link": "https://s.shopee.com.br/exemplo-organizador",
-      "imagem": ""
-    },
-    {
-      "id": 4,
-      "titulo": "Mouse Gamer RGB 7200 DPI",
-      "preco_original": 199.9,
-      "preco_atual": 119.9,
-      "desconto": 40.0,
-      "economia": 80.0,
-      "avaliacao": 4.9,
-      "loja": "Mercado Livre",
-      "link": "https://mercadolivre.com/sec/exemplo-mouse",
-      "imagem": ""
-    },
-    {
-      "id": 3,
       "titulo": "Fone Bluetooth TWS Pro",
       "preco_original": 149.9,
       "preco_atual": 49.9,
