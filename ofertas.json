@@ -1,9 +1,9 @@
 {
-  "atualizado_em": "26/11/2026 22:44",
-  "total": 5,
+  "atualizado_em": "26/11/2026 22:48",
+  "total": 1,
   "ofertas": [
     {
-      "id": 15,
+      "id": 16,
       "titulo": "Echo Dot 5ª Geração Alexa",
       "preco_original": 429.0,
       "preco_atual": 269.0,
@@ -11,56 +11,8 @@
       "economia": 160.0,
       "avaliacao": 4.9,
       "loja": "Amazon",
-      "link": "https://amzn.to/SEU_LINK_REAL",
-      "imagem": "https://m.media-amazon.com/images/I/31epF-8N9LL.png"
-    },
-    {
-      "id": 14,
-      "titulo": "Fone Bluetooth TWS JBL",
-      "preco_original": 299.9,
-      "preco_atual": 149.9,
-      "desconto": 50.0,
-      "economia": 150.0,
-      "avaliacao": 4.8,
-      "loja": "Mercado Livre",
-      "link": "https://mercadolivre.com/sec/exemplo-jbl",
-      "imagem": ""
-    },
-    {
-      "id": 13,
-      "titulo": "Kit Organizador de Cabos Mesa",
-      "preco_original": 59.9,
-      "preco_atual": 29.9,
-      "desconto": 50.0,
-      "economia": 30.0,
-      "avaliacao": 4.9,
-      "loja": "Shopee",
-      "link": "https://s.shopee.com.br/exemplo-organizador",
-      "imagem": ""
-    },
-    {
-      "id": 12,
-      "titulo": "Mouse Gamer RGB 7200 DPI",
-      "preco_original": 199.9,
-      "preco_atual": 119.9,
-      "desconto": 40.0,
-      "economia": 80.0,
-      "avaliacao": 4.9,
-      "loja": "Mercado Livre",
-      "link": "https://mercadolivre.com/sec/exemplo-mouse",
-      "imagem": ""
-    },
-    {
-      "id": 11,
-      "titulo": "Fone Bluetooth TWS Pro",
-      "preco_original": 149.9,
-      "preco_atual": 49.9,
-      "desconto": 67.0,
-      "economia": 100.0,
-      "avaliacao": 4.8,
-      "loja": "Shopee",
-      "link": "https://s.shopee.com.br/exemplo-fone",
-      "imagem": ""
+      "link": "https://www.amazon.com.br/dp/B09B8VGCR8?pd_rd_w=sFHkN&content-id=amzn1.sym.3591053f-a671-4805-84cb-b2e08264bbfa%3Aamzn1.sym.3591053f-a671-4805-84cb-b2e08264bbfa&pf_rd_p=3591053f-a671-4805-84cb-b2e08264bbfa&pf_rd_r=R9VBEDTWE9C5TYZ44WD0&pd_rd_wg=4vuc4&pd_rd_r=ecc9478b-8cad-4700-bab6-a2dfa9b3095c&pd_rd_i=B09B8VGCR8&ref_=febr_c_p_r0_ttl&th=1",
+      "imagem": "https://m.media-amazon.com/images/I/61evEYmxBZL._AC_SL1000_.jpg"
     }
   ]
 }
