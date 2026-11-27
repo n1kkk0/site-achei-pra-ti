@@ -1,5 +1,5 @@
 // =========================================================
-// 1. CONFIGURAÇÃO DOS LINKS (COLE OS SEUS AQUI)
+// 1. CONFIGURAÇÃO DOS LINKS
 // =========================================================
 const LINKS_GRUPOS = {
   whatsapp: "https://chat.whatsapp.com/CcPFw9XAjVmBN7MNZVZJIW?s=cl&p=i&iam=2",
@@ -7,7 +7,7 @@ const LINKS_GRUPOS = {
 };
 
 // =========================================================
-// 2. IMAGENS E FALLBACK INTELIGENTE (URL EXTERNA -> .WEBP -> EMOJI)
+// 2. IMAGENS E FALLBACK PARA EMOJI
 // =========================================================
 const PASTA_IMAGENS = "";
 const EXTENSOES_IMAGENS = ["webp"];
@@ -21,7 +21,7 @@ function htmlImagem(item) {
     return item.emoji || "🏷️";
   }
 
-  // Se vier URL completa da loja (http/https) via ofertas.json
+  // Foto real capturada do anúncio da loja (http/https)
   if (item.imagem.startsWith("http://") || item.imagem.startsWith("https://")) {
     return `<img src="${item.imagem}"
       alt="${item.nome}" loading="lazy"
@@ -29,7 +29,7 @@ function htmlImagem(item) {
       onerror="this.replaceWith(document.createTextNode(this.dataset.emoji))">`;
   }
 
-  // Caso contrário, busca os arquivos .webp locais da pasta do site
+  // Fotos locais .webp (usadas apenas nos cards padrão de fallback)
   return `<img src="${caminhoImagem(item.imagem, EXTENSOES_IMAGENS[0])}"
     alt="${item.nome}" loading="lazy"
     data-nome="${item.imagem}" data-emoji="${item.emoji || "🏷️"}" data-tentativa="0"
@@ -114,30 +114,18 @@ function formatarReais(valor) {
   });
 }
 
-function detectarVisualProduto(titulo) {
+function detectarEmojiCategoria(titulo) {
   const t = (titulo || "").toLowerCase();
-  if (t.includes("iphone") || t.includes("smartphone") || t.includes("celular") || t.includes("galaxy")) {
-    return { imagem: "iphone-15", emoji: "📱" };
-  }
-  if (t.includes("aspirador") || t.includes("robô")) {
-    return { imagem: "robo-aspirador", emoji: "🧹" };
-  }
-  if (t.includes("caixa") || t.includes("bluetooth") || t.includes("fone") || t.includes("jbl")) {
-    return { imagem: "caixa-bluetooth", emoji: "🔊" };
-  }
-  if (t.includes("tv") || t.includes("smart tv") || t.includes("monitor")) {
-    return { imagem: "smart-tv-55", emoji: "📺" };
-  }
-  if (t.includes("ps5") || t.includes("playstation") || t.includes("console") || t.includes("xbox")) {
-    return { imagem: "ps5", emoji: "🎮" };
-  }
-  if (t.includes("air fryer") || t.includes("fritadeira") || t.includes("cozinha")) {
-    return { imagem: "air-fryer", emoji: "🍟" };
-  }
-  if (t.includes("tênis") || t.includes("tenis") || t.includes("corrida") || t.includes("nike") || t.includes("adidas")) {
-    return { imagem: "tenis-corrida", emoji: "👟" };
-  }
-  return { imagem: "", emoji: "🔥" };
+  if (t.includes("iphone") || t.includes("smartphone") || t.includes("celular") || t.includes("galaxy")) return "📱";
+  if (t.includes("fone") || t.includes("headset") || t.includes("earbuds")) return "🎧";
+  if (t.includes("caixa") || t.includes("bluetooth") || t.includes("soundbar")) return "🔊";
+  if (t.includes("mouse") || t.includes("teclado") || t.includes("notebook") || t.includes("cabo") || t.includes("organizador")) return "💻";
+  if (t.includes("aspirador") || t.includes("robô")) return "🧹";
+  if (t.includes("tv") || t.includes("monitor")) return "📺";
+  if (t.includes("ps5") || t.includes("playstation") || t.includes("console") || t.includes("xbox")) return "🎮";
+  if (t.includes("air fryer") || t.includes("fritadeira") || t.includes("garrafa") || t.includes("cafeteira")) return "🍳";
+  if (t.includes("tênis") || t.includes("tenis") || t.includes("nike") || t.includes("adidas")) return "👟";
+  return "🏷️";
 }
 
 function encurtarTitulo(titulo, max = 22) {
@@ -156,14 +144,14 @@ async function carregarOfertasDoBot() {
     }
 
     const vitrine = dados.ofertas.map(o => {
-      const visual = detectarVisualProduto(o.titulo);
+      const emoji = detectarEmojiCategoria(o.titulo);
       const offInt = Math.round(Number(o.desconto) || 0);
-      const imgFinal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : visual.imagem;
+      const imgReal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : "";
 
       return {
-        imagem: imgFinal,
-        emoji: visual.emoji,
-        categoria: `${visual.emoji} ${o.loja || "Oferta"}`,
+        imagem: imgReal,
+        emoji: emoji,
+        categoria: `${emoji} ${o.loja || "Oferta"}`,
         nome: o.titulo,
         de: formatarReais(o.preco_original),
         por: formatarReais(o.preco_atual),
@@ -173,13 +161,13 @@ async function carregarOfertasDoBot() {
     });
 
     const feed = dados.ofertas.map(o => {
-      const visual = detectarVisualProduto(o.titulo);
+      const emoji = detectarEmojiCategoria(o.titulo);
       const offInt = Math.round(Number(o.desconto) || 0);
-      const imgFinal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : visual.imagem;
+      const imgReal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : "";
 
       return {
-        imagem: imgFinal,
-        emoji: visual.emoji,
+        imagem: imgReal,
+        emoji: emoji,
         nome: encurtarTitulo(o.titulo, 20),
         de: formatarReais(o.preco_original),
         por: formatarReais(o.preco_atual),
