@@ -29,7 +29,7 @@ function htmlImagem(item) {
       onerror="this.replaceWith(document.createTextNode(this.dataset.emoji))">`;
   }
 
-  // Fotos locais .webp (usadas apenas nos cards padrão de fallback)
+  // Fotos locais .webp (cards de apoio)
   return `<img src="${caminhoImagem(item.imagem, EXTENSOES_IMAGENS[0])}"
     alt="${item.nome}" loading="lazy"
     data-nome="${item.imagem}" data-emoji="${item.emoji || "🏷️"}" data-tentativa="0"
@@ -48,7 +48,7 @@ function imagemFalhou(img) {
 }
 
 // =========================================================
-// 3. DADOS PADRÃO (FALLBACK CASO O JSON NÃO CARREGUE)
+// 3. DADOS PADRÃO (COMPLETAM A VITRINE SE HOUVER POUCAS OFERTAS)
 // =========================================================
 const OFERTAS_VITRINE_PADRAO = [
   {
@@ -118,7 +118,7 @@ function detectarEmojiCategoria(titulo) {
   const t = (titulo || "").toLowerCase();
   if (t.includes("iphone") || t.includes("smartphone") || t.includes("celular") || t.includes("galaxy")) return "📱";
   if (t.includes("fone") || t.includes("headset") || t.includes("earbuds")) return "🎧";
-  if (t.includes("caixa") || t.includes("bluetooth") || t.includes("soundbar")) return "🔊";
+  if (t.includes("echo") || t.includes("alexa") || t.includes("caixa") || t.includes("bluetooth") || t.includes("soundbar")) return "🔊";
   if (t.includes("mouse") || t.includes("teclado") || t.includes("notebook") || t.includes("cabo") || t.includes("organizador")) return "💻";
   if (t.includes("aspirador") || t.includes("robô")) return "🧹";
   if (t.includes("tv") || t.includes("monitor")) return "📺";
@@ -143,7 +143,7 @@ async function carregarOfertasDoBot() {
       throw new Error("Lista de ofertas vazia no JSON");
     }
 
-    const vitrine = dados.ofertas.map(o => {
+    const vitrineReal = dados.ofertas.map(o => {
       const emoji = detectarEmojiCategoria(o.titulo);
       const offInt = Math.round(Number(o.desconto) || 0);
       const imgReal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : "";
@@ -160,7 +160,7 @@ async function carregarOfertasDoBot() {
       };
     });
 
-    const feed = dados.ofertas.map(o => {
+    const feedReal = dados.ofertas.map(o => {
       const emoji = detectarEmojiCategoria(o.titulo);
       const offInt = Math.round(Number(o.desconto) || 0);
       const imgReal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : "";
@@ -174,6 +174,19 @@ async function carregarOfertasDoBot() {
         off: `-${offInt}%`
       };
     });
+
+    // Completa até 4 cards na vitrine e 6 no celular caso ainda haja poucas ofertas reais
+    const vitrine = [...vitrineReal];
+    for (const padrao of OFERTAS_VITRINE_PADRAO) {
+      if (vitrine.length >= 4) break;
+      vitrine.push(padrao);
+    }
+
+    const feed = [...feedReal];
+    for (const padrao of OFERTAS_FEED_PADRAO) {
+      if (feed.length >= MAX_CARDS_NO_FEED) break;
+      feed.push(padrao);
+    }
 
     return { vitrine, feed };
   } catch (err) {
