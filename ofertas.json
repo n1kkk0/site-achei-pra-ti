@@ -1,7 +1,55 @@
 {
-  "atualizado_em": "26/11/2026 22:14",
-  "total": 5,
+  "atualizado_em": "26/11/2026 22:27",
+  "total": 9,
   "ofertas": [
+    {
+      "id": 9,
+      "titulo": "Fone Bluetooth TWS JBL",
+      "preco_original": 299.9,
+      "preco_atual": 149.9,
+      "desconto": 50.0,
+      "economia": 150.0,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://mercadolivre.com/sec/exemplo-jbl",
+      "imagem": "https://http2.mlstatic.com/D_NQ_NP_2X_956791-MLA74780388315_022024-F.webp"
+    },
+    {
+      "id": 8,
+      "titulo": "Kit Organizador de Cabos Mesa",
+      "preco_original": 59.9,
+      "preco_atual": 29.9,
+      "desconto": 50.0,
+      "economia": 30.0,
+      "avaliacao": 4.9,
+      "loja": "Shopee",
+      "link": "https://s.shopee.com.br/exemplo-organizador",
+      "imagem": ""
+    },
+    {
+      "id": 7,
+      "titulo": "Mouse Gamer RGB 7200 DPI",
+      "preco_original": 199.9,
+      "preco_atual": 119.9,
+      "desconto": 40.0,
+      "economia": 80.0,
+      "avaliacao": 4.9,
+      "loja": "Mercado Livre",
+      "link": "https://mercadolivre.com/sec/exemplo-mouse",
+      "imagem": ""
+    },
+    {
+      "id": 6,
+      "titulo": "Fone Bluetooth TWS Pro",
+      "preco_original": 149.9,
+      "preco_atual": 49.9,
+      "desconto": 67.0,
+      "economia": 100.0,
+      "avaliacao": 4.8,
+      "loja": "Shopee",
+      "link": "https://s.shopee.com.br/exemplo-fone",
+      "imagem": ""
+    },
     {
       "id": 5,
       "titulo": "Kit Organizador de Cabos Mesa",
@@ -11,7 +59,8 @@
       "economia": 30.0,
       "avaliacao": 4.9,
       "loja": "Shopee",
-      "link": "https://s.shopee.com.br/exemplo-organizador"
+      "link": "https://s.shopee.com.br/exemplo-organizador",
+      "imagem": ""
     },
     {
       "id": 4,
@@ -22,7 +71,8 @@
       "economia": 80.0,
       "avaliacao": 4.9,
       "loja": "Mercado Livre",
-      "link": "https://mercadolivre.com/sec/exemplo-mouse"
+      "link": "https://mercadolivre.com/sec/exemplo-mouse",
+      "imagem": ""
     },
     {
       "id": 3,
@@ -33,7 +83,8 @@
       "economia": 100.0,
       "avaliacao": 4.8,
       "loja": "Shopee",
-      "link": "https://s.shopee.com.br/exemplo-fone"
+      "link": "https://s.shopee.com.br/exemplo-fone",
+      "imagem": ""
     },
     {
       "id": 2,
@@ -44,7 +95,8 @@
       "economia": 900.0,
       "avaliacao": 4.7,
       "loja": "Magalu",
-      "link": "https://magazineluiza.com.br/oferta-tv-03"
+      "link": "https://magazineluiza.com.br/oferta-tv-03",
+      "imagem": ""
     },
     {
       "id": 1,
@@ -55,7 +107,8 @@
       "economia": 240.0,
       "avaliacao": 4.9,
       "loja": "Mercado Livre",
-      "link": "https://mercadolivre.com.br/oferta-airfryer-01?tag=afiliado1"
+      "link": "https://mercadolivre.com.br/oferta-airfryer-01?tag=afiliado1",
+      "imagem": ""
     }
   ]
 }
