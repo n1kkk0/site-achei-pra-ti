@@ -1,0 +1,61 @@
+{
+  "atualizado_em": "26/11/2026 22:14",
+  "total": 5,
+  "ofertas": [
+    {
+      "id": 5,
+      "titulo": "Kit Organizador de Cabos Mesa",
+      "preco_original": 59.9,
+      "preco_atual": 29.9,
+      "desconto": 50.0,
+      "economia": 30.0,
+      "avaliacao": 4.9,
+      "loja": "Shopee",
+      "link": "https://s.shopee.com.br/exemplo-organizador"
+    },
+    {
+      "id": 4,
+      "titulo": "Mouse Gamer RGB 7200 DPI",
+      "preco_original": 199.9,
+      "preco_atual": 119.9,
+      "desconto": 40.0,
+      "economia": 80.0,
+      "avaliacao": 4.9,
+      "loja": "Mercado Livre",
+      "link": "https://mercadolivre.com/sec/exemplo-mouse"
+    },
+    {
+      "id": 3,
+      "titulo": "Fone Bluetooth TWS Pro",
+      "preco_original": 149.9,
+      "preco_atual": 49.9,
+      "desconto": 67.0,
+      "economia": 100.0,
+      "avaliacao": 4.8,
+      "loja": "Shopee",
+      "link": "https://s.shopee.com.br/exemplo-fone"
+    },
+    {
+      "id": 2,
+      "titulo": "Smart TV 50\" 4K UHD",
+      "preco_original": 2899.0,
+      "preco_atual": 1999.0,
+      "desconto": 31.0,
+      "economia": 900.0,
+      "avaliacao": 4.7,
+      "loja": "Magalu",
+      "link": "https://magazineluiza.com.br/oferta-tv-03"
+    },
+    {
+      "id": 1,
+      "titulo": "Air Fryer Digital 4L Inox",
+      "preco_original": 499.9,
+      "preco_atual": 259.9,
+      "desconto": 48.0,
+      "economia": 240.0,
+      "avaliacao": 4.9,
+      "loja": "Mercado Livre",
+      "link": "https://mercadolivre.com.br/oferta-airfryer-01?tag=afiliado1"
+    }
+  ]
+}
