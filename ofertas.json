@@ -1,5 +1,5 @@
 {
-  "atualizado_em": "26/11/2026 22:35",
+  "atualizado_em": "26/11/2026 22:37",
   "total": 7,
   "ofertas": [
     {
@@ -12,7 +12,7 @@
       "avaliacao": 4.9,
       "loja": "Mercado Livre",
       "link": "https://www.mercadolivre.com.br/playstation-5-slim-disk-1tb-1-controle-branco-sony/up/MLBU4852141639",
-      "imagem": "https://http2.mlstatic.com/D_NQ_NP_2X_658340-MLB119944031162_112026-F-playstation-5-slim-disk-1tb-1-controle-branco-sony.webp"
+      "imagem": ""
     },
     {
       "id": 9,
@@ -72,7 +72,7 @@
       "avaliacao": 4.7,
       "loja": "Magalu",
       "link": "https://magazineluiza.com.br/oferta-tv-03",
-      "imagem": ""
+      "imagem": "https://wx.mlcdn.com.br/shared/magalu/error-robot.svg"
     },
     {
       "id": 1,
