@@ -21,28 +21,33 @@ const LINKS_GRUPOS = {
 //    (ex.: iphone-15.webp).
 //    Se a foto não existir, o emoji aparece no lugar.
 // =========================================================
-// Pasta das fotos. "" = mesma pasta do index.html (como está agora).
-// Se um dia criar uma pasta, escreva o nome com barra no final: "imagens/"
 const PASTA_IMAGENS = "";
-
-// Formato das fotos. Se um dia precisar de outro, acrescente na lista
-// (ex.: ["webp", "jpg"]) que o código tenta cada um em ordem.
 const EXTENSOES_IMAGENS = ["webp"];
 
 function caminhoImagem(nome, extensao) {
   return `${PASTA_IMAGENS}${nome}.${extensao}`;
 }
 
-// Monta a <img> com a primeira extensão da lista
 function htmlImagem(item) {
+  if (!item.imagem) {
+    return item.emoji || "🏷️";
+  }
+
+  // Foto real capturada do anúncio da loja (URL completa http/https)
+  if (item.imagem.startsWith("http://") || item.imagem.startsWith("https://")) {
+    return `<img src="${item.imagem}"
+      alt="${item.nome}" loading="lazy"
+      data-emoji="${item.emoji || "🏷️"}"
+      onerror="this.replaceWith(document.createTextNode(this.dataset.emoji))">`;
+  }
+
+  // Imagem local (.webp)
   return `<img src="${caminhoImagem(item.imagem, EXTENSOES_IMAGENS[0])}"
     alt="${item.nome}" loading="lazy"
-    data-nome="${item.imagem}" data-emoji="${item.emoji}" data-tentativa="0"
+    data-nome="${item.imagem}" data-emoji="${item.emoji || "🏷️"}" data-tentativa="0"
     onerror="imagemFalhou(this)">`;
 }
 
-// Se a imagem não carregar, tenta a próxima extensão;
-// se nenhuma existir, mostra o emoji no lugar.
 function imagemFalhou(img) {
   const proxima = Number(img.dataset.tentativa) + 1;
 
@@ -67,7 +72,8 @@ const OFERTAS_VITRINE = [
     nome: "Smartphone 128GB Lacrado",
     de: "R$ 5.699,90",
     por: "R$ 2.790,00",
-    desconto: "51% OFF"
+    desconto: "51% OFF",
+    link: ""
   },
   {
     imagem: "robo-aspirador",       // robo-aspirador.webp
@@ -76,7 +82,8 @@ const OFERTAS_VITRINE = [
     nome: "Robô Aspirador Inteligente",
     de: "R$ 1.299,90",
     por: "R$ 699,90",
-    desconto: "46% OFF"
+    desconto: "46% OFF",
+    link: ""
   },
   {
     imagem: "caixa-bluetooth",      // caixa-bluetooth.webp
@@ -85,7 +92,8 @@ const OFERTAS_VITRINE = [
     nome: "Caixa de Som Bluetooth Portátil",
     de: "R$ 799,90",
     por: "R$ 449,90",
-    desconto: "44% OFF"
+    desconto: "44% OFF",
+    link: ""
   },
   {
     imagem: "smart-tv-55",          // smart-tv-55.webp
@@ -94,12 +102,12 @@ const OFERTAS_VITRINE = [
     nome: "Smart TV 55\" 4K UHD",
     de: "R$ 3.299,90",
     por: "R$ 1.899,90",
-    desconto: "42% OFF"
+    desconto: "42% OFF",
+    link: ""
   }
 ];
 
 // ----- FEED DO CELULAR (6 produtos que passam na tela) -----
-// Nomes curtos para caberem em uma linha dentro do celular
 const OFERTAS_FEED_CELULAR = [
   { imagem: "robo-aspirador",  emoji: "🧹", nome: "Robô Aspirador",  de: "R$ 1.299,90", por: "R$ 699,90",   off: "-46%" },
   { imagem: "caixa-bluetooth", emoji: "🔊", nome: "Caixa Bluetooth", de: "R$ 799,90",   por: "R$ 449,90",   off: "-44%" },
@@ -109,35 +117,119 @@ const OFERTAS_FEED_CELULAR = [
   { imagem: "tenis-corrida",   emoji: "👟", nome: "Tênis Corrida",   de: "R$ 499,90",   por: "R$ 219,90",   off: "-56%" }
 ];
 
-// Quantos cards aparecem ao mesmo tempo dentro do celular
-const MAX_CARDS_NO_FEED = 6;  // o último aparece cortado, como num feed rolando
+const MAX_CARDS_NO_FEED = 6;
 
 // =========================================================
-// 4. INICIALIZAÇÃO DA PÁGINA
+// 4. INTEGRAÇÃO COM ofertas.json DO APT BOT
 // =========================================================
-document.addEventListener("DOMContentLoaded", () => {
+function formatarMoedaBR(valor) {
+  const num = Number(valor);
+  if (Number.isNaN(num)) return "R$ 0,00";
+  return num.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function emojiPorTitulo(titulo) {
+  const t = (titulo || "").toLowerCase();
+  if (t.includes("iphone") || t.includes("celular") || t.includes("smartphone") || t.includes("galaxy")) return "📱";
+  if (t.includes("fone") || t.includes("headset") || t.includes("earbuds")) return "🎧";
+  if (t.includes("ventilador") || t.includes("liquidificador") || t.includes("air fryer") || t.includes("fritadeira") || t.includes("refil")) return "🏠";
+  if (t.includes("tv") || t.includes("monitor")) return "📺";
+  if (t.includes("ps5") || t.includes("console") || t.includes("xbox")) return "🎮";
+  if (t.includes("tênis") || t.includes("tenis")) return "👟";
+  return "🏷️";
+}
+
+function nomeCurtoFeed(titulo, limite = 20) {
+  if (!titulo) return "Oferta";
+  return titulo.length > limite ? titulo.slice(0, limite - 1).trim() + "…" : titulo;
+}
+
+async function obterOfertasDinamicas() {
+  try {
+    const resp = await fetch(`ofertas.json?t=${Date.now()}`, { cache: "no-store" });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+    const data = await resp.json();
+    if (!data || !Array.isArray(data.ofertas) || data.ofertas.length === 0) {
+      throw new Error("Sem ofertas no JSON");
+    }
+
+    const reaisVitrine = data.ofertas.map(o => {
+      const emoji = emojiPorTitulo(o.titulo);
+      const off = Math.round(Number(o.desconto) || 0);
+      const foto = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : "";
+
+      return {
+        imagem: foto,
+        emoji: emoji,
+        categoria: `${emoji} ${o.loja || "Oferta"}`,
+        nome: o.titulo,
+        de: formatarMoedaBR(o.preco_original),
+        por: formatarMoedaBR(o.preco_atual),
+        desconto: `${off}% OFF`,
+        link: o.link || ""
+      };
+    });
+
+    const reaisFeed = data.ofertas.map(o => {
+      const emoji = emojiPorTitulo(o.titulo);
+      const off = Math.round(Number(o.desconto) || 0);
+      const foto = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : "";
+
+      return {
+        imagem: foto,
+        emoji: emoji,
+        nome: nomeCurtoFeed(o.titulo, 20),
+        de: formatarMoedaBR(o.preco_original),
+        por: formatarMoedaBR(o.preco_atual),
+        off: `-${off}%`
+      };
+    });
+
+    // Garante sempre 4 cards na vitrine sem esticar quando houver menos de 4 ofertas reais
+    const vitrineFinal = reaisVitrine.slice(0, 4);
+    for (const itemPadrao of OFERTAS_VITRINE) {
+      if (vitrineFinal.length >= 4) break;
+      vitrineFinal.push(itemPadrao);
+    }
+
+    // Garante 6 cards variados no feed do celular sem repetir um único item
+    const feedFinal = reaisFeed.slice(0, MAX_CARDS_NO_FEED);
+    for (const itemPadrao of OFERTAS_FEED_CELULAR) {
+      if (feedFinal.length >= MAX_CARDS_NO_FEED) break;
+      feedFinal.push(itemPadrao);
+    }
+
+    return { vitrine: vitrineFinal, feed: feedFinal };
+  } catch (_) {
+    return { vitrine: OFERTAS_VITRINE, feed: OFERTAS_FEED_CELULAR };
+  }
+}
+
+// =========================================================
+// 5. INICIALIZAÇÃO DA PÁGINA
+// =========================================================
+document.addEventListener("DOMContentLoaded", async () => {
   aplicarLinksNosBotoes();
-  renderizarVitrine();
-  iniciarFeedCelular();
+  const { vitrine, feed } = await obterOfertasDinamicas();
+  renderizarVitrine(vitrine);
+  iniciarFeedCelular(feed);
 });
 
-// O link ainda é o texto de exemplo (ou está vazio)?
 function linkInvalido(link) {
   return !link || link.includes("SEU_LINK_AQUI") || link.includes("SEU_PERFIL_AQUI");
 }
 
 function aplicarLinksNosBotoes() {
   document.querySelectorAll("[data-channel]").forEach(btn => {
-    const canal = btn.dataset.channel;          // "whatsapp" ou "instagram"
+    const canal = btn.dataset.channel;
     const link = LINKS_GRUPOS[canal];
 
-    // Canal deixado vazio de propósito: esconde o botão
     if (!link) {
       btn.style.display = "none";
       return;
     }
 
-    // Link de exemplo ainda não trocado: avisa no console e não abre nada
     if (linkInvalido(link)) {
       console.warn(`[Achei Pra Ti] Cole o link real do ${canal} no topo do script.js`);
       btn.addEventListener("click", e => e.preventDefault());
@@ -150,12 +242,12 @@ function aplicarLinksNosBotoes() {
   });
 }
 
-function renderizarVitrine() {
+function renderizarVitrine(listaVitrine = OFERTAS_VITRINE) {
   const grid = document.getElementById("showcase-grid");
   if (!grid) return;
 
-  grid.innerHTML = OFERTAS_VITRINE.map(item => `
-    <div class="product-card">
+  grid.innerHTML = listaVitrine.map(item => {
+    const conteudoCard = `
       <div class="product-img-box">
         <span class="discount-tag">${item.desconto}</span>
         <span class="category-tag">${item.categoria}</span>
@@ -166,17 +258,20 @@ function renderizarVitrine() {
         <span class="price-from">${item.de}</span>
         <span class="price-to">${item.por}</span>
       </div>
-    </div>
-  `).join("");
+    `;
+
+    if (item.link) {
+      return `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="product-card" style="text-decoration:none;color:inherit;">${conteudoCard}</a>`;
+    }
+    return `<div class="product-card">${conteudoCard}</div>`;
+  }).join("");
 }
 
-function iniciarFeedCelular() {
+function iniciarFeedCelular(listaFeed = OFERTAS_FEED_CELULAR) {
   const feedContainer = document.getElementById("live-feed");
-  if (!feedContainer) return;
+  if (!feedContainer || !listaFeed.length) return;
 
   let indexAtual = 0;
-
-  // Tira o espaço depois de "R$" para o preço caber em uma linha
   const semEspaco = valor => valor.replace("R$ ", "R$");
 
   function criarCardOferta(item) {
@@ -194,18 +289,16 @@ function iniciarFeedCelular() {
     return div;
   }
 
-  // Cards iniciais (o mais novo fica no topo, então o próximo nunca repete)
   for (let i = 0; i < MAX_CARDS_NO_FEED; i++) {
     feedContainer.insertBefore(
-      criarCardOferta(OFERTAS_FEED_CELULAR[i % OFERTAS_FEED_CELULAR.length]),
+      criarCardOferta(listaFeed[i % listaFeed.length]),
       feedContainer.firstChild
     );
     indexAtual = i + 1;
   }
 
-  // Novo card a cada 3,5 segundos
   setInterval(() => {
-    const proxima = OFERTAS_FEED_CELULAR[indexAtual % OFERTAS_FEED_CELULAR.length];
+    const proxima = listaFeed[indexAtual % listaFeed.length];
     indexAtual++;
     feedContainer.insertBefore(criarCardOferta(proxima), feedContainer.firstChild);
 
