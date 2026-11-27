@@ -7,7 +7,7 @@ const LINKS_GRUPOS = {
 };
 
 // =========================================================
-// 2. IMAGENS E FALLBACK INTELIGENTE DE EMOJIS
+// 2. IMAGENS E FALLBACK INTELIGENTE (URL EXTERNA -> .WEBP -> EMOJI)
 // =========================================================
 const PASTA_IMAGENS = "";
 const EXTENSOES_IMAGENS = ["webp"];
@@ -20,6 +20,16 @@ function htmlImagem(item) {
   if (!item.imagem) {
     return item.emoji || "🏷️";
   }
+
+  // Se vier URL completa da loja (http/https) via ofertas.json
+  if (item.imagem.startsWith("http://") || item.imagem.startsWith("https://")) {
+    return `<img src="${item.imagem}"
+      alt="${item.nome}" loading="lazy"
+      data-emoji="${item.emoji || "🏷️"}"
+      onerror="this.replaceWith(document.createTextNode(this.dataset.emoji))">`;
+  }
+
+  // Caso contrário, busca os arquivos .webp locais da pasta do site
   return `<img src="${caminhoImagem(item.imagem, EXTENSOES_IMAGENS[0])}"
     alt="${item.nome}" loading="lazy"
     data-nome="${item.imagem}" data-emoji="${item.emoji || "🏷️"}" data-tentativa="0"
@@ -137,7 +147,6 @@ function encurtarTitulo(titulo, max = 22) {
 
 async function carregarOfertasDoBot() {
   try {
-    // Cache-busting leve para sempre pegar o ofertas.json mais recente após deploy
     const resp = await fetch(`ofertas.json?v=${Date.now()}`, { cache: "no-store" });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
@@ -149,8 +158,10 @@ async function carregarOfertasDoBot() {
     const vitrine = dados.ofertas.map(o => {
       const visual = detectarVisualProduto(o.titulo);
       const offInt = Math.round(Number(o.desconto) || 0);
+      const imgFinal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : visual.imagem;
+
       return {
-        imagem: visual.imagem,
+        imagem: imgFinal,
         emoji: visual.emoji,
         categoria: `${visual.emoji} ${o.loja || "Oferta"}`,
         nome: o.titulo,
@@ -164,8 +175,10 @@ async function carregarOfertasDoBot() {
     const feed = dados.ofertas.map(o => {
       const visual = detectarVisualProduto(o.titulo);
       const offInt = Math.round(Number(o.desconto) || 0);
+      const imgFinal = (o.imagem && o.imagem.trim()) ? o.imagem.trim() : visual.imagem;
+
       return {
-        imagem: visual.imagem,
+        imagem: imgFinal,
         emoji: visual.emoji,
         nome: encurtarTitulo(o.titulo, 20),
         de: formatarReais(o.preco_original),
