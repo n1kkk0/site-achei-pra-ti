@@ -1,13 +1,5 @@
 // =========================================================
 // 1. CONFIGURAÇÃO DOS LINKS (COLE OS SEUS AQUI)
-//
-//    WhatsApp:  abra o grupo > Dados do grupo > "Convidar via link"
-//               > Copiar link. Fica assim:
-//               https://chat.whatsapp.com/AbC123xYz...
-//    Instagram: link do seu perfil. Fica assim:
-//               https://www.instagram.com/seuperfil
-//
-//    Para esconder um botão, deixe o link vazio: instagram: ""
 // =========================================================
 const LINKS_GRUPOS = {
   whatsapp: "https://chat.whatsapp.com/CcPFw9XAjVmBN7MNZVZJIW?s=cl&p=i&iam=2",
@@ -15,34 +7,25 @@ const LINKS_GRUPOS = {
 };
 
 // =========================================================
-// 2. IMAGENS DOS PRODUTOS
-//    Salve as fotos na mesma pasta do index.html
-//    com os nomes indicados em cada produto
-//    (ex.: iphone-15.webp).
-//    Se a foto não existir, o emoji aparece no lugar.
+// 2. IMAGENS E FALLBACK INTELIGENTE DE EMOJIS
 // =========================================================
-// Pasta das fotos. "" = mesma pasta do index.html (como está agora).
-// Se um dia criar uma pasta, escreva o nome com barra no final: "imagens/"
 const PASTA_IMAGENS = "";
-
-// Formato das fotos. Se um dia precisar de outro, acrescente na lista
-// (ex.: ["webp", "jpg"]) que o código tenta cada um em ordem.
 const EXTENSOES_IMAGENS = ["webp"];
 
 function caminhoImagem(nome, extensao) {
   return `${PASTA_IMAGENS}${nome}.${extensao}`;
 }
 
-// Monta a <img> com a primeira extensão da lista
 function htmlImagem(item) {
+  if (!item.imagem) {
+    return item.emoji || "🏷️";
+  }
   return `<img src="${caminhoImagem(item.imagem, EXTENSOES_IMAGENS[0])}"
     alt="${item.nome}" loading="lazy"
-    data-nome="${item.imagem}" data-emoji="${item.emoji}" data-tentativa="0"
+    data-nome="${item.imagem}" data-emoji="${item.emoji || "🏷️"}" data-tentativa="0"
     onerror="imagemFalhou(this)">`;
 }
 
-// Se a imagem não carregar, tenta a próxima extensão;
-// se nenhuma existir, mostra o emoji no lugar.
 function imagemFalhou(img) {
   const proxima = Number(img.dataset.tentativa) + 1;
 
@@ -55,52 +38,52 @@ function imagemFalhou(img) {
 }
 
 // =========================================================
-// 3. DADOS DOS PRODUTOS (VITRINE E FEED DO CELULAR)
+// 3. DADOS PADRÃO (FALLBACK CASO O JSON NÃO CARREGUE)
 // =========================================================
-
-// ----- VITRINE (4 produtos lá embaixo) -----
-const OFERTAS_VITRINE = [
+const OFERTAS_VITRINE_PADRAO = [
   {
-    imagem: "iphone-15",            // iphone-15.webp
+    imagem: "iphone-15",
     emoji: "📱",
     categoria: "📱 Celulares",
     nome: "Smartphone 128GB Lacrado",
     de: "R$ 5.699,90",
     por: "R$ 2.790,00",
-    desconto: "51% OFF"
+    desconto: "51% OFF",
+    link: LINKS_GRUPOS.whatsapp
   },
   {
-    imagem: "robo-aspirador",       // robo-aspirador.webp
+    imagem: "robo-aspirador",
     emoji: "🧹",
     categoria: "🏠 Casa",
     nome: "Robô Aspirador Inteligente",
     de: "R$ 1.299,90",
     por: "R$ 699,90",
-    desconto: "46% OFF"
+    desconto: "46% OFF",
+    link: LINKS_GRUPOS.whatsapp
   },
   {
-    imagem: "caixa-bluetooth",      // caixa-bluetooth.webp
+    imagem: "caixa-bluetooth",
     emoji: "🔊",
     categoria: "🔊 Áudio",
     nome: "Caixa de Som Bluetooth Portátil",
     de: "R$ 799,90",
     por: "R$ 449,90",
-    desconto: "44% OFF"
+    desconto: "44% OFF",
+    link: LINKS_GRUPOS.whatsapp
   },
   {
-    imagem: "smart-tv-55",          // smart-tv-55.webp
+    imagem: "smart-tv-55",
     emoji: "📺",
     categoria: "📺 Eletrônicos",
     nome: "Smart TV 55\" 4K UHD",
     de: "R$ 3.299,90",
     por: "R$ 1.899,90",
-    desconto: "42% OFF"
+    desconto: "42% OFF",
+    link: LINKS_GRUPOS.whatsapp
   }
 ];
 
-// ----- FEED DO CELULAR (6 produtos que passam na tela) -----
-// Nomes curtos para caberem em uma linha dentro do celular
-const OFERTAS_FEED_CELULAR = [
+const OFERTAS_FEED_PADRAO = [
   { imagem: "robo-aspirador",  emoji: "🧹", nome: "Robô Aspirador",  de: "R$ 1.299,90", por: "R$ 699,90",   off: "-46%" },
   { imagem: "caixa-bluetooth", emoji: "🔊", nome: "Caixa Bluetooth", de: "R$ 799,90",   por: "R$ 449,90",   off: "-44%" },
   { imagem: "iphone-15",       emoji: "📱", nome: "iPhone 15 128GB", de: "R$ 5.699,90", por: "R$ 2.790,00", off: "-51%" },
@@ -109,35 +92,122 @@ const OFERTAS_FEED_CELULAR = [
   { imagem: "tenis-corrida",   emoji: "👟", nome: "Tênis Corrida",   de: "R$ 499,90",   por: "R$ 219,90",   off: "-56%" }
 ];
 
-// Quantos cards aparecem ao mesmo tempo dentro do celular
-const MAX_CARDS_NO_FEED = 6;  // o último aparece cortado, como num feed rolando
+const MAX_CARDS_NO_FEED = 6;
 
 // =========================================================
-// 4. INICIALIZAÇÃO DA PÁGINA
+// 4. CONVERSÃO DO ofertas.json (GERADO PELO APT BOT)
 // =========================================================
-document.addEventListener("DOMContentLoaded", () => {
+function formatarReais(valor) {
+  return Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+function detectarVisualProduto(titulo) {
+  const t = (titulo || "").toLowerCase();
+  if (t.includes("iphone") || t.includes("smartphone") || t.includes("celular") || t.includes("galaxy")) {
+    return { imagem: "iphone-15", emoji: "📱" };
+  }
+  if (t.includes("aspirador") || t.includes("robô")) {
+    return { imagem: "robo-aspirador", emoji: "🧹" };
+  }
+  if (t.includes("caixa") || t.includes("bluetooth") || t.includes("fone") || t.includes("jbl")) {
+    return { imagem: "caixa-bluetooth", emoji: "🔊" };
+  }
+  if (t.includes("tv") || t.includes("smart tv") || t.includes("monitor")) {
+    return { imagem: "smart-tv-55", emoji: "📺" };
+  }
+  if (t.includes("ps5") || t.includes("playstation") || t.includes("console") || t.includes("xbox")) {
+    return { imagem: "ps5", emoji: "🎮" };
+  }
+  if (t.includes("air fryer") || t.includes("fritadeira") || t.includes("cozinha")) {
+    return { imagem: "air-fryer", emoji: "🍟" };
+  }
+  if (t.includes("tênis") || t.includes("tenis") || t.includes("corrida") || t.includes("nike") || t.includes("adidas")) {
+    return { imagem: "tenis-corrida", emoji: "👟" };
+  }
+  return { imagem: "", emoji: "🔥" };
+}
+
+function encurtarTitulo(titulo, max = 22) {
+  if (!titulo) return "Oferta Relâmpago";
+  return titulo.length > max ? titulo.slice(0, max - 1).trim() + "…" : titulo;
+}
+
+async function carregarOfertasDoBot() {
+  try {
+    // Cache-busting leve para sempre pegar o ofertas.json mais recente após deploy
+    const resp = await fetch(`ofertas.json?v=${Date.now()}`, { cache: "no-store" });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+    const dados = await resp.json();
+    if (!dados || !Array.isArray(dados.ofertas) || dados.ofertas.length === 0) {
+      throw new Error("Lista de ofertas vazia no JSON");
+    }
+
+    const vitrine = dados.ofertas.map(o => {
+      const visual = detectarVisualProduto(o.titulo);
+      const offInt = Math.round(Number(o.desconto) || 0);
+      return {
+        imagem: visual.imagem,
+        emoji: visual.emoji,
+        categoria: `${visual.emoji} ${o.loja || "Oferta"}`,
+        nome: o.titulo,
+        de: formatarReais(o.preco_original),
+        por: formatarReais(o.preco_atual),
+        desconto: `${offInt}% OFF`,
+        link: o.link || LINKS_GRUPOS.whatsapp
+      };
+    });
+
+    const feed = dados.ofertas.map(o => {
+      const visual = detectarVisualProduto(o.titulo);
+      const offInt = Math.round(Number(o.desconto) || 0);
+      return {
+        imagem: visual.imagem,
+        emoji: visual.emoji,
+        nome: encurtarTitulo(o.titulo, 20),
+        de: formatarReais(o.preco_original),
+        por: formatarReais(o.preco_atual),
+        off: `-${offInt}%`
+      };
+    });
+
+    return { vitrine, feed };
+  } catch (err) {
+    console.info("[Achei Pra Ti] Usando ofertas padrão da vitrine:", err.message);
+    return {
+      vitrine: OFERTAS_VITRINE_PADRAO,
+      feed: OFERTAS_FEED_PADRAO
+    };
+  }
+}
+
+// =========================================================
+// 5. INICIALIZAÇÃO DA PÁGINA
+// =========================================================
+document.addEventListener("DOMContentLoaded", async () => {
   aplicarLinksNosBotoes();
-  renderizarVitrine();
-  iniciarFeedCelular();
+  const { vitrine, feed } = await carregarOfertasDoBot();
+  renderizarVitrine(vitrine);
+  iniciarFeedCelular(feed);
 });
 
-// O link ainda é o texto de exemplo (ou está vazio)?
 function linkInvalido(link) {
   return !link || link.includes("SEU_LINK_AQUI") || link.includes("SEU_PERFIL_AQUI");
 }
 
 function aplicarLinksNosBotoes() {
   document.querySelectorAll("[data-channel]").forEach(btn => {
-    const canal = btn.dataset.channel;          // "whatsapp" ou "instagram"
+    const canal = btn.dataset.channel;
     const link = LINKS_GRUPOS[canal];
 
-    // Canal deixado vazio de propósito: esconde o botão
     if (!link) {
       btn.style.display = "none";
       return;
     }
 
-    // Link de exemplo ainda não trocado: avisa no console e não abre nada
     if (linkInvalido(link)) {
       console.warn(`[Achei Pra Ti] Cole o link real do ${canal} no topo do script.js`);
       btn.addEventListener("click", e => e.preventDefault());
@@ -150,12 +220,12 @@ function aplicarLinksNosBotoes() {
   });
 }
 
-function renderizarVitrine() {
+function renderizarVitrine(listaVitrine) {
   const grid = document.getElementById("showcase-grid");
   if (!grid) return;
 
-  grid.innerHTML = OFERTAS_VITRINE.map(item => `
-    <div class="product-card">
+  grid.innerHTML = listaVitrine.map(item => `
+    <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="product-card" style="text-decoration: none; color: inherit;">
       <div class="product-img-box">
         <span class="discount-tag">${item.desconto}</span>
         <span class="category-tag">${item.categoria}</span>
@@ -166,17 +236,15 @@ function renderizarVitrine() {
         <span class="price-from">${item.de}</span>
         <span class="price-to">${item.por}</span>
       </div>
-    </div>
+    </a>
   `).join("");
 }
 
-function iniciarFeedCelular() {
+function iniciarFeedCelular(listaFeed) {
   const feedContainer = document.getElementById("live-feed");
-  if (!feedContainer) return;
+  if (!feedContainer || !listaFeed.length) return;
 
   let indexAtual = 0;
-
-  // Tira o espaço depois de "R$" para o preço caber em uma linha
   const semEspaco = valor => valor.replace("R$ ", "R$");
 
   function criarCardOferta(item) {
@@ -194,18 +262,16 @@ function iniciarFeedCelular() {
     return div;
   }
 
-  // Cards iniciais (o mais novo fica no topo, então o próximo nunca repete)
   for (let i = 0; i < MAX_CARDS_NO_FEED; i++) {
     feedContainer.insertBefore(
-      criarCardOferta(OFERTAS_FEED_CELULAR[i % OFERTAS_FEED_CELULAR.length]),
+      criarCardOferta(listaFeed[i % listaFeed.length]),
       feedContainer.firstChild
     );
     indexAtual = i + 1;
   }
 
-  // Novo card a cada 3,5 segundos
   setInterval(() => {
-    const proxima = OFERTAS_FEED_CELULAR[indexAtual % OFERTAS_FEED_CELULAR.length];
+    const proxima = listaFeed[indexAtual % listaFeed.length];
     indexAtual++;
     feedContainer.insertBefore(criarCardOferta(proxima), feedContainer.firstChild);
 
