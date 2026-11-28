@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "28/11/2026 14:19",
-  "total": 10,
+  "atualizado_em": "28/11/2026 14:20",
+  "total": 11,
   "ofertas": [
+    {
+      "id": 63,
+      "titulo": "Aspirador Vertical Midea 1350 W, 2 em 1",
+      "preco_original": 228.43,
+      "preco_atual": 132.9,
+      "desconto": 42.0,
+      "economia": 95.53,
+      "avaliacao": 4.9,
+      "loja": "Mercado Livre",
+      "link": "https://meli.la/2prbjVV",
+      "imagem": "https://http2.mlstatic.com/D_Q_NP_2X_934214-MLA95401671574_102025-V.webp"
+    },
     {
       "id": 62,
       "titulo": "Fone Bluetooth QCY T13 ANC, branco",
