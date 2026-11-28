@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "28/11/2026 11:35",
+  "atualizado_em": "28/11/2026 12:00",
   "total": 7,
   "ofertas": [
+    {
+      "id": 26,
+      "titulo": "Fone De Ouvido Soundcore by Anker P20i Graves Poderosos e Impactantes Bluetooth 5.3 30H de Reprodução Resistência à Água 2 Mics IA para Chamadas Claras Personalização de Som via App Cor Preto",
+      "preco_original": 299.0,
+      "preco_atual": 112.8,
+      "desconto": 62.0,
+      "economia": 186.2,
+      "avaliacao": 0.0,
+      "loja": "Mercado Livre",
+      "link": "https://www.mercadolivre.com.br/fone-de-ouvido-soundcore-by-anker-p20i-graves-poderosos-e-impactantes-bluetooth-53-30h-de-reproducao-resistencia-agua-2-mics-ia-para-chamadas-claras-personalizacao-de-som-via-app-cor-preto/p/MLB24028629?matt_tool=10740278&matt_word=acheiprati",
+      "imagem": ""
+    },
     {
       "id": 24,
       "titulo": "Filamento Pla Plus 1kg Impressão 3d Nacional - Cores Cor Preto",
@@ -60,18 +72,6 @@
       "avaliacao": 4.8,
       "loja": "Mercado Livre",
       "link": "https://www.mercadolivre.com.br/projetor-portatil-4k-hd-android-110-smart-wifi-5g-bluetooth/up/MLBU767944712?matt_tool=10740278&matt_word=acheiprati",
-      "imagem": ""
-    },
-    {
-      "id": 17,
-      "titulo": "Fone De Ouvido Soundcore by Anker P20i Graves Poderosos e Impactantes Bluetooth 5.3 30H de Reprodução Resistência à Água 2 Mics IA para Chamadas Claras Personalização de Som via App Cor Preto",
-      "preco_original": 299.0,
-      "preco_atual": 112.8,
-      "desconto": 62.0,
-      "economia": 186.2,
-      "avaliacao": 4.8,
-      "loja": "Mercado Livre",
-      "link": "https://www.mercadolivre.com.br/fone-de-ouvido-soundcore-by-anker-p20i-graves-poderosos-e-impactantes-bluetooth-53-30h-de-reproducao-resistencia-agua-2-mics-ia-para-chamadas-claras-personalizacao-de-som-via-app-cor-preto/p/MLB24028629?matt_tool=10740278&matt_word=acheiprati",
       "imagem": ""
     },
     {
