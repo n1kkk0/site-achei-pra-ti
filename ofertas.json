@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "28/11/2026 14:18",
-  "total": 9,
+  "atualizado_em": "28/11/2026 14:19",
+  "total": 10,
   "ofertas": [
+    {
+      "id": 62,
+      "titulo": "Fone Bluetooth QCY T13 ANC, branco",
+      "preco_original": 269.9,
+      "preco_atual": 183.33,
+      "desconto": 32.0,
+      "economia": 86.57,
+      "avaliacao": 0.0,
+      "loja": "Mercado Livre",
+      "link": "https://meli.la/2JESMPT",
+      "imagem": "https://http2.mlstatic.com/D_Q_NP_2X_931230-MLA118138865212_102026-V.webp"
+    },
     {
       "id": 61,
       "titulo": "Balança de Cozinha Tefal Essential KSE1, até 5 kg",
