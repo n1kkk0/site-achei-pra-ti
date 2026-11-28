@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "28/11/2026 14:20",
-  "total": 11,
+  "atualizado_em": "28/11/2026 14:21",
+  "total": 12,
   "ofertas": [
+    {
+      "id": 64,
+      "titulo": "Power Bank por Indução Geonav 10.000 mAh com Suporte Dobrável",
+      "preco_original": 329.0,
+      "preco_atual": 129.59,
+      "desconto": 61.0,
+      "economia": 199.41,
+      "avaliacao": 4.7,
+      "loja": "Mercado Livre",
+      "link": "https://meli.la/1hsMvt5",
+      "imagem": "https://http2.mlstatic.com/D_Q_NP_2X_777329-MLA99560805138_122025-V.webp"
+    },
     {
       "id": 63,
       "titulo": "Aspirador Vertical Midea 1350 W, 2 em 1",
