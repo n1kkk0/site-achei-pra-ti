@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "28/11/2026 14:21",
-  "total": 12,
+  "atualizado_em": "28/11/2026 14:22",
+  "total": 13,
   "ofertas": [
+    {
+      "id": 65,
+      "titulo": "Frigideira Funda Tefal Refresh Ceramic 30 cm",
+      "preco_original": 360.0,
+      "preco_atual": 148.99,
+      "desconto": 59.0,
+      "economia": 211.01,
+      "avaliacao": 0.0,
+      "loja": "Mercado Livre",
+      "link": "https://meli.la/18vURof",
+      "imagem": "https://http2.mlstatic.com/D_Q_NP_2X_659498-MLA95972953578_102025-V.webp"
+    },
     {
       "id": 64,
       "titulo": "Power Bank por Indução Geonav 10.000 mAh com Suporte Dobrável",
