@@ -1,7 +1,19 @@
 {
-  "atualizado_em": "28/11/2026 13:46",
-  "total": 8,
+  "atualizado_em": "28/11/2026 14:18",
+  "total": 9,
   "ofertas": [
+    {
+      "id": 61,
+      "titulo": "Balança de Cozinha Tefal Essential KSE1, até 5 kg",
+      "preco_original": 89.99,
+      "preco_atual": 58.76,
+      "desconto": 35.0,
+      "economia": 31.23,
+      "avaliacao": 4.8,
+      "loja": "Mercado Livre",
+      "link": "https://meli.la/2isJ8oG",
+      "imagem": "https://http2.mlstatic.com/D_Q_NP_2X_862958-MLA113627280185_062026-V.webp"
+    },
     {
       "id": 60,
       "titulo": "Cafeteira Italiana Carneiri para 6 Xícaras e Fogão de Indução",
